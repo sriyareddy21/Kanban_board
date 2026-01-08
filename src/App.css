@@ -1,4 +1,4 @@
-/* ====================================== CANVA UI THEME STYLE ====================================== */
+
 :root {
   --bg-gradient: linear-gradient(180deg, #f2e9ff, #ffffff);
   --card: #ffffff;
@@ -10,6 +10,7 @@
   --radius: 22px;
   --transition: all 0.25s ease;
 }
+
 [data-theme="dark"] {
   --bg-gradient: linear-gradient(180deg, #111, #111);
   --card: #1e1e1e;
@@ -18,7 +19,9 @@
   --shadow: rgba(0, 0, 0, 0.45);
   --primary: #4c9aff;
   --primary-light: #6ab3ff;
-} /* ====================================== GLOBAL BODY ====================================== */
+}
+
+/* ====================================== GLOBAL BODY ====================================== */
 body {
   margin: 0;
   padding: 0;
@@ -29,7 +32,9 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
-} /* ====================================== HEADER — CENTER TITLE + PILL TOGGLE ====================================== */
+}
+
+/* ====================================== HEADER ====================================== */
 .header {
   display: flex;
   justify-content: center;
@@ -37,12 +42,15 @@ body {
   gap: 250px;
   padding: 25px 0 0 0;
 }
+
 .title {
   font-size: 52px;
   font-weight: 800;
   letter-spacing: -1px;
-  margin-left: 170px; /* adjust this value */
-} /* pill style toggle */
+  margin-left: 170px;
+}
+
+/* pill style toggle */
 .theme-toggle-pill {
   padding: 12px 22px;
   border-radius: 999px;
@@ -53,16 +61,48 @@ body {
   font-size: 15px;
   transition: var(--transition);
 }
+
 .theme-toggle-pill:hover {
   background: var(--primary-light);
-} /* ====================================== BOARD — FOUR CARD LAYOUT ====================================== */
+}
+
+/* ====================================== SEARCH BAR (THEME INDEPENDENT) ====================================== */
+.search-container {
+  text-align: center;
+  margin: 20px 0 10px;
+}
+
+.search-input {
+  width: 320px;
+  padding: 12px 14px;
+  font-size: 15px;
+  border-radius: 14px;
+  border: 1px solid #b0b0b0;
+  outline: none;
+  background-color: #ffffff; /* same in dark & light */
+  color: #000000; /* same in dark & light */
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-input::placeholder {
+  color: #666666;
+}
+
+.search-input:focus {
+  border-color: #6a5bff;
+  box-shadow: 0 0 0 3px rgba(106, 91, 255, 0.25);
+}
+
+/* ====================================== BOARD ====================================== */
 .board {
   flex: 1;
   display: flex;
   justify-content: center;
   gap: 22px;
   padding: 45px;
-} /* ====================================== COLUMN — CANVA CARD STYLE ====================================== */
+}
+
+/* ====================================== COLUMN ====================================== */
 .column {
   background: var(--card);
   width: 30%;
@@ -74,16 +114,22 @@ body {
   display: flex;
   flex-direction: column;
   transition: var(--transition);
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
 }
+
 .column:hover {
   transform: translateY(-6px);
   box-shadow: 0 26px 60px var(--shadow);
 }
+
 .column h2 {
   margin: 0 0 18px 0;
   font-size: 22px;
   font-weight: 700;
-} /* ====================================== TASK CARD — CANVA INNER TILES ====================================== */
+}
+
+/* ====================================== TASK CARD ====================================== */
 .web-task {
   background: var(--card);
   border-radius: 16px;
@@ -97,19 +143,24 @@ body {
   cursor: grab;
   transition: var(--transition);
 }
+
 .web-task:hover {
   transform: translateY(-3px);
   box-shadow: 0 20px 45px var(--shadow);
 }
+
 .web-task-title {
   font-size: 16px;
   font-weight: 600;
   color: var(--text-main);
-} /* ====================================== ACTION BUTTONS ====================================== */
+}
+
+/* ====================================== ACTION BUTTONS ====================================== */
 .web-task-actions {
   display: flex;
   gap: 10px;
 }
+
 .web-task-actions button {
   flex: 1;
   padding: 10px;
@@ -118,23 +169,31 @@ body {
   cursor: pointer;
   font-weight: 600;
   font-size: 14px;
-} /* edit */
+}
+
+/* edit */
 .web-task-actions button:first-child {
   background: var(--primary);
   color: white;
 }
+
 .web-task-actions button:first-child:hover {
   background: var(--primary-light);
-} /* delete */
+}
+
+/* delete */
 .web-task-actions button:last-child {
   background: transparent;
   border: 1px solid red;
   color: red;
 }
+
 .web-task-actions button:last-child:hover {
   background: red;
   color: white;
-} /* ====================================== ADD TASK — PURPLE CTA STYLE ====================================== */
+}
+
+/* ====================================== ADD TASK BUTTON ====================================== */
 .add-btn {
   margin-top: auto;
   padding: 14px;
@@ -147,21 +206,22 @@ body {
   transition: var(--transition);
   font-weight: 600;
 }
+
 .add-btn:hover {
   background: var(--primary-light);
-} /* ====================================== SCROLL INSIDE COLUMNS (Optional) ====================================== */
-.column {
-  max-height: calc(100vh - 200px);
-  overflow-y: auto;
 }
+
+/* ====================================== SCROLLBAR ====================================== */
 .column::-webkit-scrollbar {
   width: 6px;
 }
+
 .column::-webkit-scrollbar-thumb {
   background: #ccc;
   border-radius: 50px;
 }
-/* ====================================== RESPONSIVE BREAKPOINTS ====================================== */
+
+/* ====================================== RESPONSIVE ====================================== */
 @media (max-width: 1200px) {
   .board {
     padding: 32px 24px 40px;
@@ -180,10 +240,16 @@ body {
   .title {
     font-size: 32px;
     text-align: center;
+    margin-left: 0;
+  }
+
+  .search-input {
+    width: 100%;
+    max-width: 320px;
   }
 
   .board {
-    flex-wrap: wrap; /* allow wrapping on small screens */
+    flex-wrap: wrap;
     padding: 20px 16px 32px;
     gap: 18px;
   }

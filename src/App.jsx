@@ -37,6 +37,9 @@ function App() {
 
   const [dragged, setDragged] = useState(null);
 
+  /* 🔍 SEARCH STATE (ONLY ADDITION) */
+  const [searchTerm, setSearchTerm] = useState("");
+
   /* ---------- GOOGLE SHEET SYNC ---------- */
   const syncWithGoogleSheet = useCallback(async (tasksData) => {
     const flatTasks = [];
@@ -46,8 +49,8 @@ function App() {
         flatTasks.push({
           id: task.id,
           text: task.text,
-          column: task.column || "", // old column stored here
-          updatedColumn: task.updatedColumn || "", // new column stored here
+          column: task.column || "",
+          updatedColumn: task.updatedColumn || "",
         });
       });
     });
@@ -93,7 +96,7 @@ function App() {
         {
           id: generateTaskId(),
           text,
-          column, // initial old column
+          column,
           updatedColumn: "",
         },
       ],
@@ -106,7 +109,9 @@ function App() {
 
     setTasks((prev) => ({
       ...prev,
-      [column]: prev[column].map((t) => (t.id === id ? { ...t, text } : t)),
+      [column]: prev[column].map((t) =>
+        t.id === id ? { ...t, text } : t
+      ),
     }));
   };
 
@@ -119,17 +124,14 @@ function App() {
     }));
   };
 
-  /* ---------------- DRAG & DROP ----------------
-     column         = old column
-     updatedColumn  = new column
-  ------------------------------------------------*/
+  /* ---------- DRAG & DROP ---------- */
   const onDrop = (newColumn) => {
     if (!dragged || dragged.column === newColumn) return;
 
     const movedTask = {
       ...dragged.task,
-      column: dragged.column, // OLD
-      updatedColumn: newColumn, // NEW
+      column: dragged.column,
+      updatedColumn: newColumn,
     };
 
     setTasks((prev) => ({
@@ -143,6 +145,12 @@ function App() {
     setDragged(null);
   };
 
+  /* ---------- SEARCH FILTER ---------- */
+  const filterTasks = (column) =>
+    tasks[column].filter((task) =>
+      task.text.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
   /* ---------- UI ---------- */
   return (
     <div className="app">
@@ -151,6 +159,17 @@ function App() {
         <h1 className="title">Kanban Board</h1>
         <ThemeToggle theme={theme} setTheme={setTheme} />
       </header>
+
+      {/* 🔍 SEARCH BAR */}
+      <div className="search-container">
+        <input
+          type="text"
+          className="search-input"
+          placeholder="Search tasks..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
 
       <div className="board">
         {columns.map((column) => (
@@ -162,14 +181,12 @@ function App() {
           >
             <h2>{column}</h2>
 
-            {tasks[column].map((task) => (
+            {filterTasks(column).map((task) => (
               <div
                 key={task.id}
                 className="task web-task"
                 draggable
-                onDragStart={
-                  () => setDragged({ task, column }) // track old column
-                }
+                onDragStart={() => setDragged({ task, column })}
               >
                 <div className="web-task-title">{task.text}</div>
 
@@ -195,3 +212,4 @@ function App() {
 }
 
 export default App;
+
